@@ -1,0 +1,486 @@
+   1               		.file	"Graphics.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               		.section	.text.SetPixel,"ax",@progbits
+  17               	.global	SetPixel
+  19               	SetPixel:
+  20               	.LFB2:
+  21               	.LSM0:
+  22               	.LVL0:
+  23               	/* prologue: function */
+  24               	/* frame size = 0 */
+  25 0000 582F      		mov r21,r24
+  26               	.LSM1:
+  27 0002 862F      		mov r24,r22
+  28               	.LVL1:
+  29 0004 8695      		lsr r24
+  30 0006 8695      		lsr r24
+  31 0008 8695      		lsr r24
+  32 000a 282F      		mov r18,r24
+  33               	.LVL2:
+  34 000c 30E0      		ldi r19,lo8(0)
+  35               	.LVL3:
+  36               	.LSM2:
+  37 000e 70E0      		ldi r23,lo8(0)
+  38               	.LVL4:
+  39 0010 6770      		andi r22,lo8(7)
+  40 0012 7070      		andi r23,hi8(7)
+  41               	.LVL5:
+  42               	.LSM3:
+  43 0014 4130      		cpi r20,lo8(1)
+  44 0016 01F4      		brne .L2
+  45               	.LSM4:
+  46 0018 84E5      		ldi r24,lo8(84)
+  47 001a 90E0      		ldi r25,hi8(84)
+  48 001c 289F      		mul r18,r24
+  49 001e F001      		movw r30,r0
+  50 0020 299F      		mul r18,r25
+  51 0022 F00D      		add r31,r0
+  52 0024 389F      		mul r19,r24
+  53 0026 F00D      		add r31,r0
+  54 0028 1124      		clr r1
+  55 002a E50F      		add r30,r21
+  56 002c F11D      		adc r31,__zero_reg__
+  57 002e E050      		subi r30,lo8(-(screenBuffer))
+  58 0030 F040      		sbci r31,hi8(-(screenBuffer))
+  59 0032 81E0      		ldi r24,lo8(1)
+  60 0034 90E0      		ldi r25,hi8(1)
+  61 0036 00C0      		rjmp 2f
+  62 0038 880F      	1:	lsl r24
+  63 003a 991F      		rol r25
+  64 003c 6A95      	2:	dec r22
+  65 003e 02F4      		brpl 1b
+  66 0040 2081      		ld r18,Z
+  67               	.LVL6:
+  68 0042 282B      		or r18,r24
+  69 0044 2083      		st Z,r18
+  70 0046 0895      		ret
+  71               	.LVL7:
+  72               	.L2:
+  73               	.LSM5:
+  74 0048 4423      		tst r20
+  75 004a 01F4      		brne .L4
+  76               	.LSM6:
+  77 004c 84E5      		ldi r24,lo8(84)
+  78 004e 90E0      		ldi r25,hi8(84)
+  79 0050 289F      		mul r18,r24
+  80 0052 F001      		movw r30,r0
+  81 0054 299F      		mul r18,r25
+  82 0056 F00D      		add r31,r0
+  83 0058 389F      		mul r19,r24
+  84 005a F00D      		add r31,r0
+  85 005c 1124      		clr r1
+  86 005e E50F      		add r30,r21
+  87 0060 F11D      		adc r31,__zero_reg__
+  88 0062 E050      		subi r30,lo8(-(screenBuffer))
+  89 0064 F040      		sbci r31,hi8(-(screenBuffer))
+  90 0066 81E0      		ldi r24,lo8(1)
+  91 0068 90E0      		ldi r25,hi8(1)
+  92 006a 00C0      		rjmp 2f
+  93 006c 880F      	1:	lsl r24
+  94 006e 991F      		rol r25
+  95 0070 6A95      	2:	dec r22
+  96 0072 02F4      		brpl 1b
+  97 0074 8095      		com r24
+  98 0076 2081      		ld r18,Z
+  99               	.LVL8:
+ 100 0078 2823      		and r18,r24
+ 101 007a 2083      		st Z,r18
+ 102               	.LVL9:
+ 103               	.L4:
+ 104 007c 0895      		ret
+ 105               	.LFE2:
+ 107               		.section	.text.DrawLine,"ax",@progbits
+ 108               	.global	DrawLine
+ 110               	DrawLine:
+ 111               	.LFB3:
+ 112               	.LSM7:
+ 113               	.LVL10:
+ 114 0000 4F92      		push r4
+ 115 0002 5F92      		push r5
+ 116 0004 6F92      		push r6
+ 117 0006 7F92      		push r7
+ 118 0008 8F92      		push r8
+ 119 000a 9F92      		push r9
+ 120 000c AF92      		push r10
+ 121 000e BF92      		push r11
+ 122 0010 CF92      		push r12
+ 123 0012 DF92      		push r13
+ 124 0014 EF92      		push r14
+ 125 0016 FF92      		push r15
+ 126 0018 0F93      		push r16
+ 127 001a 1F93      		push r17
+ 128 001c CF93      		push r28
+ 129 001e DF93      		push r29
+ 130               	/* prologue: function */
+ 131               	/* frame size = 0 */
+ 132 0020 982E      		mov r9,r24
+ 133 0022 862E      		mov r8,r22
+ 134               	.LSM8:
+ 135 0024 642E      		mov r6,r20
+ 136 0026 7724      		clr r7
+ 137 0028 90E0      		ldi r25,lo8(0)
+ 138               	.LVL11:
+ 139 002a 2301      		movw r4,r6
+ 140               	.LVL12:
+ 141 002c 481A      		sub r4,r24
+ 142 002e 590A      		sbc r5,r25
+ 143               	.LSM9:
+ 144 0030 C22E      		mov r12,r18
+ 145 0032 DD24      		clr r13
+ 146 0034 E62E      		mov r14,r22
+ 147               	.LVL13:
+ 148 0036 FF24      		clr r15
+ 149               	.LVL14:
+ 150 0038 5601      		movw r10,r12
+ 151               	.LVL15:
+ 152 003a AE18      		sub r10,r14
+ 153 003c BF08      		sbc r11,r15
+ 154               	.LSM10:
+ 155 003e 9416      		cp r9,r20
+ 156 0040 01F4      		brne .L6
+ 157               	.LVL16:
+ 158 0042 C0E0      		ldi r28,lo8(0)
+ 159 0044 D0E0      		ldi r29,hi8(0)
+ 160               	.LSM11:
+ 161 0046 8701      		movw r16,r14
+ 162               	.LVL17:
+ 163 0048 00C0      		rjmp .L7
+ 164               	.LVL18:
+ 165               	.L6:
+ 166               	.LSM12:
+ 167 004a C0E0      		ldi r28,lo8(0)
+ 168 004c D0E0      		ldi r29,hi8(0)
+ 169 004e 00E0      		ldi r16,lo8(0)
+ 170 0050 10E0      		ldi r17,hi8(0)
+ 171               	.LSM13:
+ 172 0052 6C01      		movw r12,r24
+ 173 0054 00C0      		rjmp .L8
+ 174               	.LVL19:
+ 175               	.L9:
+ 176               	.LSM14:
+ 177 0056 682D      		mov r22,r8
+ 178 0058 6C0F      		add r22,r28
+ 179 005a 892D      		mov r24,r9
+ 180 005c 41E0      		ldi r20,lo8(1)
+ 181               	.LVL20:
+ 182 005e 0E94 0000 		call SetPixel
+ 183               	.LVL21:
+ 184 0062 2196      		adiw r28,1
+ 185               	.LVL22:
+ 186               	.L7:
+ 187               	.LSM15:
+ 188 0064 CE01      		movw r24,r28
+ 189 0066 800F      		add r24,r16
+ 190 0068 911F      		adc r25,r17
+ 191 006a C816      		cp r12,r24
+ 192 006c D906      		cpc r13,r25
+ 193 006e 04F4      		brge .L9
+ 194 0070 00C0      		rjmp .L12
+ 195               	.LVL23:
+ 196               	.L11:
+ 197               	.LSM16:
+ 198 0072 C801      		movw r24,r16
+ 199 0074 8A19      		sub r24,r10
+ 200 0076 9B09      		sbc r25,r11
+ 201 0078 B201      		movw r22,r4
+ 202               	.LVL24:
+ 203 007a 0E94 0000 		call __divmodhi4
+ 204 007e 6E0D      		add r22,r14
+ 205 0080 7F1D      		adc r23,r15
+ 206 0082 892D      		mov r24,r9
+ 207 0084 8C0F      		add r24,r28
+ 208 0086 41E0      		ldi r20,lo8(1)
+ 209               	.LVL25:
+ 210 0088 0E94 0000 		call SetPixel
+ 211               	.LVL26:
+ 212 008c 2196      		adiw r28,1
+ 213               	.LVL27:
+ 214               	.L8:
+ 215 008e 0A0D      		add r16,r10
+ 216 0090 1B1D      		adc r17,r11
+ 217               	.LSM17:
+ 218 0092 CE01      		movw r24,r28
+ 219 0094 8C0D      		add r24,r12
+ 220 0096 9D1D      		adc r25,r13
+ 221 0098 6816      		cp r6,r24
+ 222 009a 7906      		cpc r7,r25
+ 223 009c 04F4      		brge .L11
+ 224               	.LVL28:
+ 225               	.L12:
+ 226               	/* epilogue start */
+ 227               	.LSM18:
+ 228 009e DF91      		pop r29
+ 229 00a0 CF91      		pop r28
+ 230 00a2 1F91      		pop r17
+ 231 00a4 0F91      		pop r16
+ 232 00a6 FF90      		pop r15
+ 233               	.LVL29:
+ 234 00a8 EF90      		pop r14
+ 235               	.LVL30:
+ 236 00aa DF90      		pop r13
+ 237 00ac CF90      		pop r12
+ 238 00ae BF90      		pop r11
+ 239 00b0 AF90      		pop r10
+ 240               	.LVL31:
+ 241 00b2 9F90      		pop r9
+ 242               	.LVL32:
+ 243 00b4 8F90      		pop r8
+ 244               	.LVL33:
+ 245 00b6 7F90      		pop r7
+ 246 00b8 6F90      		pop r6
+ 247 00ba 5F90      		pop r5
+ 248 00bc 4F90      		pop r4
+ 249               	.LVL34:
+ 250 00be 0895      		ret
+ 251               	.LFE3:
+ 253               		.section	.text.ClearBuffer,"ax",@progbits
+ 254               	.global	ClearBuffer
+ 256               	ClearBuffer:
+ 257               	.LFB5:
+ 258               	.LSM19:
+ 259               	/* prologue: function */
+ 260               	/* frame size = 0 */
+ 261               	.LSM20:
+ 262 0000 E0E0      		ldi r30,lo8(screenBuffer)
+ 263 0002 F0E0      		ldi r31,hi8(screenBuffer)
+ 264               	.L14:
+ 265               	.LSM21:
+ 266 0004 1192      		st Z+,__zero_reg__
+ 267               	.LSM22:
+ 268 0006 80E0      		ldi r24,hi8(screenBuffer+504)
+ 269 0008 E030      		cpi r30,lo8(screenBuffer+504)
+ 270 000a F807      		cpc r31,r24
+ 271 000c 01F4      		brne .L14
+ 272               	/* epilogue start */
+ 273               	.LSM23:
+ 274 000e 0895      		ret
+ 275               	.LFE5:
+ 277               		.section	.text.DrawBox,"ax",@progbits
+ 278               	.global	DrawBox
+ 280               	DrawBox:
+ 281               	.LFB6:
+ 282               	.LSM24:
+ 283               	.LVL35:
+ 284 0000 EF92      		push r14
+ 285 0002 FF92      		push r15
+ 286 0004 0F93      		push r16
+ 287 0006 1F93      		push r17
+ 288               	/* prologue: function */
+ 289               	/* frame size = 0 */
+ 290 0008 082F      		mov r16,r24
+ 291 000a E62E      		mov r14,r22
+ 292 000c 142F      		mov r17,r20
+ 293 000e F22E      		mov r15,r18
+ 294               	.LSM25:
+ 295 0010 642F      		mov r22,r20
+ 296               	.LVL36:
+ 297 0012 402F      		mov r20,r16
+ 298               	.LVL37:
+ 299 0014 0E94 0000 		call DrawLine
+ 300               	.LVL38:
+ 301               	.LSM26:
+ 302 0018 802F      		mov r24,r16
+ 303 001a 612F      		mov r22,r17
+ 304 001c 4E2D      		mov r20,r14
+ 305 001e 212F      		mov r18,r17
+ 306 0020 0E94 0000 		call DrawLine
+ 307               	.LSM27:
+ 308 0024 8E2D      		mov r24,r14
+ 309 0026 612F      		mov r22,r17
+ 310 0028 4E2D      		mov r20,r14
+ 311 002a 2F2D      		mov r18,r15
+ 312 002c 0E94 0000 		call DrawLine
+ 313               	.LSM28:
+ 314 0030 802F      		mov r24,r16
+ 315 0032 6F2D      		mov r22,r15
+ 316 0034 4E2D      		mov r20,r14
+ 317 0036 2F2D      		mov r18,r15
+ 318 0038 0E94 0000 		call DrawLine
+ 319               	/* epilogue start */
+ 320               	.LSM29:
+ 321 003c 1F91      		pop r17
+ 322               	.LVL39:
+ 323 003e 0F91      		pop r16
+ 324               	.LVL40:
+ 325 0040 FF90      		pop r15
+ 326               	.LVL41:
+ 327 0042 EF90      		pop r14
+ 328               	.LVL42:
+ 329 0044 0895      		ret
+ 330               	.LFE6:
+ 332               		.section	.text.DrawFilledBox,"ax",@progbits
+ 333               	.global	DrawFilledBox
+ 335               	DrawFilledBox:
+ 336               	.LFB7:
+ 337               	.LSM30:
+ 338               	.LVL43:
+ 339 0000 BF92      		push r11
+ 340 0002 CF92      		push r12
+ 341 0004 DF92      		push r13
+ 342 0006 EF92      		push r14
+ 343 0008 FF92      		push r15
+ 344 000a 0F93      		push r16
+ 345 000c 1F93      		push r17
+ 346 000e CF93      		push r28
+ 347 0010 DF93      		push r29
+ 348               	/* prologue: function */
+ 349               	/* frame size = 0 */
+ 350 0012 B82E      		mov r11,r24
+ 351 0014 C62E      		mov r12,r22
+ 352 0016 D42E      		mov r13,r20
+ 353               	.LSM31:
+ 354 0018 C0E0      		ldi r28,lo8(0)
+ 355 001a D0E0      		ldi r29,hi8(0)
+ 356               	.LSM32:
+ 357 001c E42E      		mov r14,r20
+ 358 001e FF24      		clr r15
+ 359               	.LVL44:
+ 360 0020 022F      		mov r16,r18
+ 361 0022 10E0      		ldi r17,lo8(0)
+ 362               	.LVL45:
+ 363 0024 00C0      		rjmp .L20
+ 364               	.LVL46:
+ 365               	.L21:
+ 366 0026 2D2D      		mov r18,r13
+ 367 0028 2C0F      		add r18,r28
+ 368               	.LSM33:
+ 369 002a 8B2D      		mov r24,r11
+ 370 002c 622F      		mov r22,r18
+ 371 002e 4C2D      		mov r20,r12
+ 372 0030 0E94 0000 		call DrawLine
+ 373 0034 2196      		adiw r28,1
+ 374               	.LVL47:
+ 375               	.L20:
+ 376               	.LSM34:
+ 377 0036 CE01      		movw r24,r28
+ 378 0038 8E0D      		add r24,r14
+ 379 003a 9F1D      		adc r25,r15
+ 380 003c 0817      		cp r16,r24
+ 381 003e 1907      		cpc r17,r25
+ 382 0040 04F4      		brge .L21
+ 383               	/* epilogue start */
+ 384               	.LSM35:
+ 385 0042 DF91      		pop r29
+ 386 0044 CF91      		pop r28
+ 387 0046 1F91      		pop r17
+ 388               	.LVL48:
+ 389 0048 0F91      		pop r16
+ 390               	.LVL49:
+ 391 004a FF90      		pop r15
+ 392               	.LVL50:
+ 393 004c EF90      		pop r14
+ 394               	.LVL51:
+ 395 004e DF90      		pop r13
+ 396 0050 CF90      		pop r12
+ 397               	.LVL52:
+ 398 0052 BF90      		pop r11
+ 399               	.LVL53:
+ 400 0054 0895      		ret
+ 401               	.LFE7:
+ 403               		.section	.text.GetPixelValue,"ax",@progbits
+ 404               	.global	GetPixelValue
+ 406               	GetPixelValue:
+ 407               	.LFB8:
+ 408               	.LSM36:
+ 409               	.LVL54:
+ 410               	/* prologue: function */
+ 411               	/* frame size = 0 */
+ 412               	.LSM37:
+ 413 0000 262F      		mov r18,r22
+ 414 0002 2695      		lsr r18
+ 415 0004 2695      		lsr r18
+ 416 0006 2695      		lsr r18
+ 417 0008 30E0      		ldi r19,lo8(0)
+ 418 000a 44E5      		ldi r20,lo8(84)
+ 419 000c 50E0      		ldi r21,hi8(84)
+ 420 000e 249F      		mul r18,r20
+ 421 0010 F001      		movw r30,r0
+ 422 0012 259F      		mul r18,r21
+ 423 0014 F00D      		add r31,r0
+ 424 0016 349F      		mul r19,r20
+ 425 0018 F00D      		add r31,r0
+ 426 001a 1124      		clr r1
+ 427 001c E80F      		add r30,r24
+ 428 001e F11D      		adc r31,__zero_reg__
+ 429 0020 E050      		subi r30,lo8(-(screenBuffer))
+ 430 0022 F040      		sbci r31,hi8(-(screenBuffer))
+ 431 0024 2081      		ld r18,Z
+ 432 0026 30E0      		ldi r19,lo8(0)
+ 433 0028 6770      		andi r22,lo8(7)
+ 434               	.LVL55:
+ 435 002a 81E0      		ldi r24,lo8(1)
+ 436 002c 90E0      		ldi r25,hi8(1)
+ 437               	.LVL56:
+ 438 002e 00C0      		rjmp 2f
+ 439 0030 880F      	1:	lsl r24
+ 440 0032 991F      		rol r25
+ 441 0034 6A95      	2:	dec r22
+ 442 0036 02F4      		brpl 1b
+ 443 0038 2823      		and r18,r24
+ 444 003a 3923      		and r19,r25
+ 445               	.LSM38:
+ 446 003c C901      		movw r24,r18
+ 447               	/* epilogue start */
+ 448 003e 0895      		ret
+ 449               	.LFE8:
+ 451               		.section	.text.PresentBuffer,"ax",@progbits
+ 452               	.global	PresentBuffer
+ 454               	PresentBuffer:
+ 455               	.LFB4:
+ 456               	.LSM39:
+ 457 0000 CF93      		push r28
+ 458 0002 DF93      		push r29
+ 459               	/* prologue: function */
+ 460               	/* frame size = 0 */
+ 461               	.LSM40:
+ 462 0004 80E0      		ldi r24,lo8(0)
+ 463 0006 60E0      		ldi r22,lo8(0)
+ 464 0008 0E94 0000 		call LCDPosition
+ 465 000c C0E0      		ldi r28,lo8(screenBuffer)
+ 466 000e D0E0      		ldi r29,hi8(screenBuffer)
+ 467               	.L26:
+ 468               	.LSM41:
+ 469 0010 81E0      		ldi r24,lo8(1)
+ 470 0012 6991      		ld r22,Y+
+ 471 0014 0E94 0000 		call LCDWrite
+ 472               	.LSM42:
+ 473 0018 80E0      		ldi r24,hi8(screenBuffer+504)
+ 474 001a C030      		cpi r28,lo8(screenBuffer+504)
+ 475 001c D807      		cpc r29,r24
+ 476 001e 01F4      		brne .L26
+ 477               	/* epilogue start */
+ 478               	.LSM43:
+ 479 0020 DF91      		pop r29
+ 480 0022 CF91      		pop r28
+ 481 0024 0895      		ret
+ 482               	.LFE4:
+ 484               		.comm screenBuffer,504,1
+ 557               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 Graphics.c
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:2      *ABS*:0000003f __SREG__
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:3      *ABS*:0000003e __SP_H__
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:4      *ABS*:0000003d __SP_L__
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:5      *ABS*:00000034 __CCP__
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:19     .text.SetPixel:00000000 SetPixel
+                            *COM*:000001f8 screenBuffer
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:110    .text.DrawLine:00000000 DrawLine
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:256    .text.ClearBuffer:00000000 ClearBuffer
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:280    .text.DrawBox:00000000 DrawBox
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:335    .text.DrawFilledBox:00000000 DrawFilledBox
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:406    .text.GetPixelValue:00000000 GetPixelValue
+C:\Users\Dustin\AppData\Local\Temp/ccoZsEYF.s:454    .text.PresentBuffer:00000000 PresentBuffer
+
+UNDEFINED SYMBOLS
+__divmodhi4
+LCDPosition
+LCDWrite
+__do_clear_bss

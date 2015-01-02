@@ -1,0 +1,356 @@
+   1               		.file	"GameMain.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               		.section	.text.Countdown,"ax",@progbits
+  17               	.global	Countdown
+  19               	Countdown:
+  20               	.LFB9:
+  21               	.LSM0:
+  22 0000 1F93      		push r17
+  23 0002 CF93      		push r28
+  24 0004 DF93      		push r29
+  25               	/* prologue: function */
+  26               	/* frame size = 0 */
+  27               	.LSM1:
+  28 0006 13E3      		ldi r17,lo8(51)
+  29               	.LBB24:
+  30               	.LBB25:
+  31               	.LBB26:
+  32               	.LBB27:
+  33               	.LSM2:
+  34 0008 C0E9      		ldi r28,lo8(400)
+  35 000a D1E0      		ldi r29,hi8(400)
+  36               	.LVL0:
+  37               	.L4:
+  38               	.LBE27:
+  39               	.LBE26:
+  40               	.LBE25:
+  41               	.LBE24:
+  42               	.LSM3:
+  43 000c 0E94 0000 		call LCDClear
+  44               	.LVL1:
+  45 0010 88E8      		ldi r24,lo8(5000)
+  46 0012 93E1      		ldi r25,hi8(5000)
+  47               	.LVL2:
+  48               	.L2:
+  49               	.LBB31:
+  50               	.LBB30:
+  51               	.LBB29:
+  52               	.LBB28:
+  53               	.LSM4:
+  54 0014 FE01      		movw r30,r28
+  55               	.LVL3:
+  56               	/* #APP */
+  57               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+  58 0016 3197      		1: sbiw r30,1
+  59 0018 01F4      		brne 1b
+  60               	 ;  0 "" 2
+  61               	/* #NOAPP */
+  62               	.LBE28:
+  63               	.LBE29:
+  64               	.LSM5:
+  65 001a 0197      		sbiw r24,1
+  66               	.LSM6:
+  67 001c 01F4      		brne .L2
+  68               	.LBE30:
+  69               	.LBE31:
+  70               	.LSM7:
+  71 001e 86E2      		ldi r24,lo8(38)
+  72               	.LVL4:
+  73 0020 63E0      		ldi r22,lo8(3)
+  74 0022 0E94 0000 		call LCDPosition
+  75               	.LVL5:
+  76               	.LSM8:
+  77 0026 812F      		mov r24,r17
+  78 0028 0E94 0000 		call LCDCharacter
+  79 002c 88E8      		ldi r24,lo8(5000)
+  80 002e 93E1      		ldi r25,hi8(5000)
+  81               	.LVL6:
+  82               	.L3:
+  83               	.LBB32:
+  84               	.LBB33:
+  85               	.LBB34:
+  86               	.LBB35:
+  87               	.LSM9:
+  88 0030 FE01      		movw r30,r28
+  89               	.LVL7:
+  90               	/* #APP */
+  91               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+  92 0032 3197      		1: sbiw r30,1
+  93 0034 01F4      		brne 1b
+  94               	 ;  0 "" 2
+  95               	/* #NOAPP */
+  96               	.LBE35:
+  97               	.LBE34:
+  98               	.LSM10:
+  99 0036 0197      		sbiw r24,1
+ 100               	.LSM11:
+ 101 0038 01F4      		brne .L3
+ 102 003a 1150      		subi r17,lo8(-(-1))
+ 103               	.LBE33:
+ 104               	.LBE32:
+ 105               	.LSM12:
+ 106 003c 1033      		cpi r17,lo8(48)
+ 107 003e 01F4      		brne .L4
+ 108               	/* epilogue start */
+ 109               	.LSM13:
+ 110 0040 DF91      		pop r29
+ 111 0042 CF91      		pop r28
+ 112 0044 1F91      		pop r17
+ 113 0046 0895      		ret
+ 114               	.LFE9:
+ 116               		.data
+ 117               	.LC0:
+ 118 0000 2042 7265 		.string	" Break Out "
+ 118      616B 204F 
+ 118      7574 2000 
+ 119               	.LC1:
+ 120 000c 3E50 6F6E 		.string	">Pong"
+ 120      6700 
+ 121               	.LC2:
+ 122 0012 2050 6F6E 		.string	" Pong"
+ 122      6700 
+ 123               	.LC3:
+ 124 0018 3E42 7265 		.string	">Break Out"
+ 124      616B 204F 
+ 124      7574 00
+ 125               		.section	.text.UpdateOptions,"ax",@progbits
+ 126               	.global	UpdateOptions
+ 128               	UpdateOptions:
+ 129               	.LFB8:
+ 130               	.LSM14:
+ 131               	.LVL8:
+ 132               	/* prologue: function */
+ 133               	/* frame size = 0 */
+ 134               	.LSM15:
+ 135 0000 8130      		cpi r24,1
+ 136 0002 9105      		cpc r25,__zero_reg__
+ 137 0004 01F4      		brne .L10
+ 138               	.LSM16:
+ 139 0006 86E0      		ldi r24,lo8(6)
+ 140               	.LVL9:
+ 141 0008 64E0      		ldi r22,lo8(4)
+ 142 000a 0E94 0000 		call LCDPosition
+ 143               	.LSM17:
+ 144 000e 80E0      		ldi r24,lo8(.LC0)
+ 145 0010 90E0      		ldi r25,hi8(.LC0)
+ 146 0012 0E94 0000 		call LCDString
+ 147               	.LSM18:
+ 148 0016 88E1      		ldi r24,lo8(24)
+ 149 0018 63E0      		ldi r22,lo8(3)
+ 150 001a 0E94 0000 		call LCDPosition
+ 151               	.LSM19:
+ 152 001e 80E0      		ldi r24,lo8(.LC1)
+ 153 0020 90E0      		ldi r25,hi8(.LC1)
+ 154 0022 0E94 0000 		call LCDString
+ 155 0026 0895      		ret
+ 156               	.LVL10:
+ 157               	.L10:
+ 158               	.LSM20:
+ 159 0028 0297      		sbiw r24,2
+ 160 002a 01F4      		brne .L12
+ 161               	.LSM21:
+ 162 002c 88E1      		ldi r24,lo8(24)
+ 163               	.LVL11:
+ 164 002e 63E0      		ldi r22,lo8(3)
+ 165 0030 0E94 0000 		call LCDPosition
+ 166               	.LSM22:
+ 167 0034 80E0      		ldi r24,lo8(.LC2)
+ 168 0036 90E0      		ldi r25,hi8(.LC2)
+ 169 0038 0E94 0000 		call LCDString
+ 170               	.LSM23:
+ 171 003c 86E0      		ldi r24,lo8(6)
+ 172 003e 64E0      		ldi r22,lo8(4)
+ 173 0040 0E94 0000 		call LCDPosition
+ 174               	.LSM24:
+ 175 0044 80E0      		ldi r24,lo8(.LC3)
+ 176 0046 90E0      		ldi r25,hi8(.LC3)
+ 177 0048 0E94 0000 		call LCDString
+ 178               	.LVL12:
+ 179               	.L12:
+ 180 004c 0895      		ret
+ 181               	.LFE8:
+ 183               		.data
+ 184               	.LC4:
+ 185 0023 4420 5769 		.string	"D Wilson"
+ 185      6C73 6F6E 
+ 185      00
+ 186               	.LC5:
+ 187 002c 3036 3332 		.string	"06325157"
+ 187      3531 3537 
+ 187      00
+ 188               		.section	.text.GenerateIntroScreen,"ax",@progbits
+ 189               	.global	GenerateIntroScreen
+ 191               	GenerateIntroScreen:
+ 192               	.LFB7:
+ 193               	.LSM25:
+ 194               	/* prologue: function */
+ 195               	/* frame size = 0 */
+ 196               	.LSM26:
+ 197 0000 0E94 0000 		call LCDClear
+ 198               	.LSM27:
+ 199 0004 8DE0      		ldi r24,lo8(13)
+ 200 0006 60E0      		ldi r22,lo8(0)
+ 201 0008 0E94 0000 		call LCDPosition
+ 202               	.LSM28:
+ 203 000c 80E0      		ldi r24,lo8(.LC4)
+ 204 000e 90E0      		ldi r25,hi8(.LC4)
+ 205 0010 0E94 0000 		call LCDString
+ 206               	.LSM29:
+ 207 0014 8DE0      		ldi r24,lo8(13)
+ 208 0016 61E0      		ldi r22,lo8(1)
+ 209 0018 0E94 0000 		call LCDPosition
+ 210               	.LSM30:
+ 211 001c 80E0      		ldi r24,lo8(.LC5)
+ 212 001e 90E0      		ldi r25,hi8(.LC5)
+ 213 0020 0E94 0000 		call LCDString
+ 214               	/* epilogue start */
+ 215               	.LSM31:
+ 216 0024 0895      		ret
+ 217               	.LFE7:
+ 219               		.section	.text.main,"ax",@progbits
+ 220               	.global	main
+ 222               	main:
+ 223               	.LFB6:
+ 224               	.LSM32:
+ 225 0000 0F93      		push r16
+ 226 0002 1F93      		push r17
+ 227 0004 CF93      		push r28
+ 228 0006 DF93      		push r29
+ 229               	/* prologue: function */
+ 230               	/* frame size = 0 */
+ 231               	.LSM33:
+ 232 0008 599A      		sbi 43-32,1
+ 233               	.LSM34:
+ 234 000a 5A9A      		sbi 43-32,2
+ 235               	.LSM35:
+ 236 000c 879A      		sbi 48-32,7
+ 237               	.LSM36:
+ 238 000e 8F98      		cbi 49-32,7
+ 239               	.LSM37:
+ 240 0010 0E94 0000 		call usb_init
+ 241               	.LSM38:
+ 242 0014 84E6      		ldi r24,lo8(100)
+ 243 0016 0E94 0000 		call LCDInitialise
+ 244               	.LBB36:
+ 245               	.LBB37:
+ 246               	.LBB38:
+ 247               	.LBB39:
+ 248               	.LSM39:
+ 249 001a 00E9      		ldi r16,lo8(400)
+ 250 001c 11E0      		ldi r17,hi8(400)
+ 251               	.LVL13:
+ 252               	.L30:
+ 253               	.LBE39:
+ 254               	.LBE38:
+ 255               	.LBE37:
+ 256               	.LBE36:
+ 257               	.LSM40:
+ 258 001e 0E94 0000 		call GenerateIntroScreen
+ 259               	.LSM41:
+ 260 0022 81E0      		ldi r24,lo8(1)
+ 261 0024 90E0      		ldi r25,hi8(1)
+ 262 0026 0E94 0000 		call UpdateOptions
+ 263               	.LVL14:
+ 264               	.L19:
+ 265 002a C1E0      		ldi r28,lo8(1)
+ 266 002c D0E0      		ldi r29,hi8(1)
+ 267               	.L29:
+ 268               	.LSM42:
+ 269 002e CE01      		movw r24,r28
+ 270               	.LVL15:
+ 271 0030 0E94 0000 		call UpdateOptions
+ 272               	.LVL16:
+ 273               	.LSM43:
+ 274 0034 499B      		sbis 41-32,1
+ 275 0036 00C0      		rjmp .L17
+ 276               	.LSM44:
+ 277 0038 4A99      		sbic 41-32,2
+ 278 003a 00C0      		rjmp .L29
+ 279               	.LSM45:
+ 280 003c 2196      		adiw r28,1
+ 281 003e 88EE      		ldi r24,lo8(1000)
+ 282 0040 93E0      		ldi r25,hi8(1000)
+ 283               	.LVL17:
+ 284               	.L18:
+ 285               	.LBB43:
+ 286               	.LBB42:
+ 287               	.LBB41:
+ 288               	.LBB40:
+ 289               	.LSM46:
+ 290 0042 F801      		movw r30,r16
+ 291               	.LVL18:
+ 292               	/* #APP */
+ 293               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 294 0044 3197      		1: sbiw r30,1
+ 295 0046 01F4      		brne 1b
+ 296               	 ;  0 "" 2
+ 297               	/* #NOAPP */
+ 298               	.LBE40:
+ 299               	.LBE41:
+ 300               	.LSM47:
+ 301 0048 0197      		sbiw r24,1
+ 302               	.LSM48:
+ 303 004a 01F4      		brne .L18
+ 304               	.LBE42:
+ 305               	.LBE43:
+ 306               	.LSM49:
+ 307 004c C230      		cpi r28,2
+ 308 004e D105      		cpc r29,__zero_reg__
+ 309 0050 01F4      		brne .L19
+ 310 0052 00C0      		rjmp .L29
+ 311               	.LVL19:
+ 312               	.L33:
+ 313               	.LSM50:
+ 314 0054 0E94 0000 		call Countdown
+ 315               	.LSM51:
+ 316 0058 81E0      		ldi r24,lo8(1)
+ 317 005a 90E0      		ldi r25,hi8(1)
+ 318 005c 00C0      		rjmp .L32
+ 319               	.L31:
+ 320               	.LSM52:
+ 321 005e 2297      		sbiw r28,2
+ 322 0060 01F4      		brne .L30
+ 323               	.LSM53:
+ 324 0062 0E94 0000 		call Countdown
+ 325               	.LSM54:
+ 326 0066 82E0      		ldi r24,lo8(2)
+ 327 0068 90E0      		ldi r25,hi8(2)
+ 328               	.L32:
+ 329 006a 0E94 0000 		call PlayGame
+ 330 006e 00C0      		rjmp .L30
+ 331               	.L17:
+ 332               	.LSM55:
+ 333 0070 C130      		cpi r28,1
+ 334 0072 D105      		cpc r29,__zero_reg__
+ 335 0074 01F4      		brne .L31
+ 336 0076 00C0      		rjmp .L33
+ 337               	.LFE6:
+ 387               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 GameMain.c
+C:\Users\Dustin\AppData\Local\Temp/ccfqIuBj.s:2      *ABS*:0000003f __SREG__
+C:\Users\Dustin\AppData\Local\Temp/ccfqIuBj.s:3      *ABS*:0000003e __SP_H__
+C:\Users\Dustin\AppData\Local\Temp/ccfqIuBj.s:4      *ABS*:0000003d __SP_L__
+C:\Users\Dustin\AppData\Local\Temp/ccfqIuBj.s:5      *ABS*:00000034 __CCP__
+C:\Users\Dustin\AppData\Local\Temp/ccfqIuBj.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Dustin\AppData\Local\Temp/ccfqIuBj.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Dustin\AppData\Local\Temp/ccfqIuBj.s:19     .text.Countdown:00000000 Countdown
+C:\Users\Dustin\AppData\Local\Temp/ccfqIuBj.s:128    .text.UpdateOptions:00000000 UpdateOptions
+C:\Users\Dustin\AppData\Local\Temp/ccfqIuBj.s:191    .text.GenerateIntroScreen:00000000 GenerateIntroScreen
+C:\Users\Dustin\AppData\Local\Temp/ccfqIuBj.s:222    .text.main:00000000 main
+
+UNDEFINED SYMBOLS
+LCDClear
+LCDPosition
+LCDCharacter
+LCDString
+usb_init
+LCDInitialise
+PlayGame
+__do_copy_data

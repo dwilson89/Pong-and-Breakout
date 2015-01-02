@@ -1,0 +1,149 @@
+   1               		.file	"ADC.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               		.section	.text.ADCInitialise,"ax",@progbits
+  17               	.global	ADCInitialise
+  19               	ADCInitialise:
+  20               	.LFB2:
+  21               	.LSM0:
+  22               	.LVL0:
+  23               	/* prologue: function */
+  24               	/* frame size = 0 */
+  25               	.LSM1:
+  26 0000 6093 0000 		sts _interrupt,r22
+  27               	.LSM2:
+  28 0004 982F      		mov r25,r24
+  29 0006 9072      		andi r25,lo8(32)
+  30 0008 9068      		ori r25,lo8(-128)
+  31 000a 9093 7B00 		sts 123,r25
+  32               	.LSM3:
+  33 000e 8F71      		andi r24,lo8(31)
+  34               	.LVL1:
+  35 0010 8064      		ori r24,lo8(64)
+  36 0012 8093 7C00 		sts 124,r24
+  37               	.LSM4:
+  38 0016 86E8      		ldi r24,lo8(-122)
+  39               	.LVL2:
+  40 0018 8093 7A00 		sts 122,r24
+  41               	.LSM5:
+  42 001c 6623      		tst r22
+  43 001e 01F0      		breq .L3
+  44               	.LSM6:
+  45 0020 8091 7A00 		lds r24,122
+  46 0024 98E4      		ldi r25,lo8(72)
+  47 0026 8927      		eor r24,r25
+  48 0028 8093 7A00 		sts 122,r24
+  49               	.LSM7:
+  50               	/* #APP */
+  51               	 ;  30 "ADC.c" 1
+  52 002c 7894      		sei
+  53               	 ;  0 "" 2
+  54               	/* #NOAPP */
+  55               	.L3:
+  56 002e 0895      		ret
+  57               	.LFE2:
+  59               		.section	.text.ADCRead,"ax",@progbits
+  60               	.global	ADCRead
+  62               	ADCRead:
+  63               	.LFB3:
+  64               	.LSM8:
+  65               	/* prologue: function */
+  66               	/* frame size = 0 */
+  67               	.LSM9:
+  68 0000 8091 0000 		lds r24,_interrupt
+  69 0004 8823      		tst r24
+  70 0006 01F4      		brne .L5
+  71               	.LSM10:
+  72 0008 8091 7A00 		lds r24,122
+  73 000c 90E4      		ldi r25,lo8(64)
+  74 000e 8927      		eor r24,r25
+  75 0010 8093 7A00 		sts 122,r24
+  76               	.L6:
+  77               	.LSM11:
+  78 0014 8091 7A00 		lds r24,122
+  79 0018 86FD      		sbrc r24,6
+  80 001a 00C0      		rjmp .L6
+  81               	.LSM12:
+  82 001c 8091 7800 		lds r24,120
+  83 0020 8093 0000 		sts low,r24
+  84               	.LSM13:
+  85 0024 8091 7900 		lds r24,121
+  86 0028 8093 0000 		sts high,r24
+  87               	.L5:
+  88               	.LSM14:
+  89 002c 4091 0000 		lds r20,high
+  90 0030 2091 0000 		lds r18,low
+  91 0034 942F      		mov r25,r20
+  92 0036 80E0      		ldi r24,lo8(0)
+  93 0038 30E0      		ldi r19,lo8(0)
+  94 003a 282B      		or r18,r24
+  95 003c 392B      		or r19,r25
+  96               	.LSM15:
+  97 003e C901      		movw r24,r18
+  98               	/* epilogue start */
+  99 0040 0895      		ret
+ 100               	.LFE3:
+ 102               		.section	.text.__vector_29,"ax",@progbits
+ 103               	.global	__vector_29
+ 105               	__vector_29:
+ 106               	.LFB4:
+ 107               	.LSM16:
+ 108 0000 1F92      		push __zero_reg__
+ 109 0002 0F92      		push r0
+ 110 0004 0FB6      		in r0,__SREG__
+ 111 0006 0F92      		push r0
+ 112 0008 1124      		clr __zero_reg__
+ 113 000a 8F93      		push r24
+ 114 000c EF93      		push r30
+ 115 000e FF93      		push r31
+ 116               	/* prologue: Signal */
+ 117               	/* frame size = 0 */
+ 118               	.LSM17:
+ 119 0010 8091 7800 		lds r24,120
+ 120 0014 8093 0000 		sts low,r24
+ 121               	.LSM18:
+ 122 0018 8091 7900 		lds r24,121
+ 123 001c 8093 0000 		sts high,r24
+ 124               	.LSM19:
+ 125 0020 EAE7      		ldi r30,lo8(122)
+ 126 0022 F0E0      		ldi r31,hi8(122)
+ 127 0024 8081      		ld r24,Z
+ 128 0026 8064      		ori r24,lo8(64)
+ 129 0028 8083      		st Z,r24
+ 130               	/* epilogue start */
+ 131               	.LSM20:
+ 132 002a FF91      		pop r31
+ 133 002c EF91      		pop r30
+ 134 002e 8F91      		pop r24
+ 135 0030 0F90      		pop r0
+ 136 0032 0FBE      		out __SREG__,r0
+ 137 0034 0F90      		pop r0
+ 138 0036 1F90      		pop __zero_reg__
+ 139 0038 1895      		reti
+ 140               	.LFE4:
+ 142               		.lcomm _interrupt,1
+ 143               		.lcomm low,1
+ 144               		.lcomm high,1
+ 185               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 ADC.c
+C:\Users\Dustin\AppData\Local\Temp/cc5UHSSZ.s:2      *ABS*:0000003f __SREG__
+C:\Users\Dustin\AppData\Local\Temp/cc5UHSSZ.s:3      *ABS*:0000003e __SP_H__
+C:\Users\Dustin\AppData\Local\Temp/cc5UHSSZ.s:4      *ABS*:0000003d __SP_L__
+C:\Users\Dustin\AppData\Local\Temp/cc5UHSSZ.s:5      *ABS*:00000034 __CCP__
+C:\Users\Dustin\AppData\Local\Temp/cc5UHSSZ.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Dustin\AppData\Local\Temp/cc5UHSSZ.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Dustin\AppData\Local\Temp/cc5UHSSZ.s:19     .text.ADCInitialise:00000000 ADCInitialise
+                             .bss:00000000 _interrupt
+C:\Users\Dustin\AppData\Local\Temp/cc5UHSSZ.s:62     .text.ADCRead:00000000 ADCRead
+C:\Users\Dustin\AppData\Local\Temp/cc5UHSSZ.s:142    .bss:00000001 low
+C:\Users\Dustin\AppData\Local\Temp/cc5UHSSZ.s:143    .bss:00000002 high
+C:\Users\Dustin\AppData\Local\Temp/cc5UHSSZ.s:105    .text.__vector_29:00000000 __vector_29
+
+UNDEFINED SYMBOLS
+__do_clear_bss

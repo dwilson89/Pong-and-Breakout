@@ -1,0 +1,309 @@
+   1               		.file	"breakout.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               		.section	.text.InitPositions,"ax",@progbits
+  17               	.global	InitPositions
+  19               	InitPositions:
+  20               	.LFB6:
+  21               	.LSM0:
+  22               	/* prologue: function */
+  23               	/* frame size = 0 */
+  24               	.LSM1:
+  25 0000 82E2      		ldi r24,lo8(34)
+  26 0002 90E0      		ldi r25,hi8(34)
+  27 0004 9093 0000 		sts (paddleX1)+1,r25
+  28 0008 8093 0000 		sts paddleX1,r24
+  29               	.LSM2:
+  30 000c 80E3      		ldi r24,lo8(48)
+  31 000e 90E0      		ldi r25,hi8(48)
+  32 0010 9093 0000 		sts (paddleX2)+1,r25
+  33 0014 8093 0000 		sts paddleX2,r24
+  34               	.LSM3:
+  35 0018 8EE2      		ldi r24,lo8(46)
+  36 001a 90E0      		ldi r25,hi8(46)
+  37 001c 9093 0000 		sts (paddleY1)+1,r25
+  38 0020 8093 0000 		sts paddleY1,r24
+  39               	.LSM4:
+  40 0024 8FE2      		ldi r24,lo8(47)
+  41 0026 90E0      		ldi r25,hi8(47)
+  42 0028 9093 0000 		sts (paddleY2)+1,r25
+  43 002c 8093 0000 		sts paddleY2,r24
+  44               	.LSM5:
+  45 0030 48E2      		ldi r20,lo8(40)
+  46 0032 50E0      		ldi r21,hi8(40)
+  47 0034 5093 0000 		sts (ballX1)+1,r21
+  48 0038 4093 0000 		sts ballX1,r20
+  49               	.LSM6:
+  50 003c 2AE2      		ldi r18,lo8(42)
+  51 003e 30E0      		ldi r19,hi8(42)
+  52 0040 3093 0000 		sts (ballX2)+1,r19
+  53 0044 2093 0000 		sts ballX2,r18
+  54               	.LSM7:
+  55 0048 86E1      		ldi r24,lo8(22)
+  56 004a 90E0      		ldi r25,hi8(22)
+  57 004c 9093 0000 		sts (ballY1)+1,r25
+  58 0050 8093 0000 		sts ballY1,r24
+  59               	.LSM8:
+  60 0054 88E1      		ldi r24,lo8(24)
+  61 0056 90E0      		ldi r25,hi8(24)
+  62 0058 9093 0000 		sts (ballY2)+1,r25
+  63 005c 8093 0000 		sts ballY2,r24
+  64               	.LSM9:
+  65 0060 5093 0000 		sts (nextBallX1)+1,r21
+  66 0064 4093 0000 		sts nextBallX1,r20
+  67               	.LSM10:
+  68 0068 3093 0000 		sts (nextBallX2)+1,r19
+  69 006c 2093 0000 		sts nextBallX2,r18
+  70               	.LSM11:
+  71 0070 87E1      		ldi r24,lo8(23)
+  72 0072 90E0      		ldi r25,hi8(23)
+  73 0074 9093 0000 		sts (nextBallY1)+1,r25
+  74 0078 8093 0000 		sts nextBallY1,r24
+  75               	.LSM12:
+  76 007c 89E1      		ldi r24,lo8(25)
+  77 007e 90E0      		ldi r25,hi8(25)
+  78 0080 9093 0000 		sts (nextBallY2)+1,r25
+  79 0084 8093 0000 		sts nextBallY2,r24
+  80 0088 E0E0      		ldi r30,lo8(bricks)
+  81 008a F0E0      		ldi r31,hi8(bricks)
+  82               	.LSM13:
+  83 008c 81E0      		ldi r24,lo8(1)
+  84 008e 90E0      		ldi r25,hi8(1)
+  85               	.L2:
+  86 0090 8193      		st Z+,r24
+  87 0092 9193      		st Z+,r25
+  88               	.LSM14:
+  89 0094 20E0      		ldi r18,hi8(bricks+42)
+  90 0096 E030      		cpi r30,lo8(bricks+42)
+  91 0098 F207      		cpc r31,r18
+  92 009a 01F4      		brne .L2
+  93               	/* epilogue start */
+  94               	.LSM15:
+  95 009c 0895      		ret
+  96               	.LFE6:
+  98               		.section	.text.UpdateBreakOut,"ax",@progbits
+  99               	.global	UpdateBreakOut
+ 101               	UpdateBreakOut:
+ 102               	.LFB7:
+ 103               	.LSM16:
+ 104 0000 AF92      		push r10
+ 105 0002 BF92      		push r11
+ 106 0004 CF92      		push r12
+ 107 0006 DF92      		push r13
+ 108 0008 EF92      		push r14
+ 109 000a FF92      		push r15
+ 110 000c 0F93      		push r16
+ 111 000e 1F93      		push r17
+ 112 0010 CF93      		push r28
+ 113 0012 DF93      		push r29
+ 114               	/* prologue: function */
+ 115               	/* frame size = 0 */
+ 116               	.LSM17:
+ 117 0014 0E94 0000 		call ClearBuffer
+ 118               	.LSM18:
+ 119 0018 8091 0000 		lds r24,paddleX1
+ 120 001c 6091 0000 		lds r22,paddleX2
+ 121 0020 4091 0000 		lds r20,paddleY1
+ 122 0024 2091 0000 		lds r18,paddleY2
+ 123 0028 0E94 0000 		call DrawFilledBox
+ 124               	.LSM19:
+ 125 002c 8091 0000 		lds r24,ballX1
+ 126 0030 6091 0000 		lds r22,ballX2
+ 127 0034 4091 0000 		lds r20,ballY1
+ 128 0038 2091 0000 		lds r18,ballY2
+ 129 003c 0E94 0000 		call DrawFilledBox
+ 130 0040 20E0      		ldi r18,lo8(bricks)
+ 131 0042 C22E      		mov r12,r18
+ 132 0044 20E0      		ldi r18,hi8(bricks)
+ 133 0046 D22E      		mov r13,r18
+ 134 0048 00E0      		ldi r16,lo8(0)
+ 135 004a 10E0      		ldi r17,hi8(0)
+ 136               	.LVL0:
+ 137 004c 20E0      		ldi r18,lo8(0)
+ 138 004e 30E0      		ldi r19,hi8(0)
+ 139               	.LVL1:
+ 140 0050 EE24      		clr r14
+ 141 0052 FF24      		clr r15
+ 142               	.LVL2:
+ 143 0054 C0E0      		ldi r28,lo8(0)
+ 144 0056 D0E0      		ldi r29,hi8(0)
+ 145               	.LVL3:
+ 146               	.L9:
+ 147               	.LSM20:
+ 148 0058 C801      		movw r24,r16
+ 149 005a 67E0      		ldi r22,lo8(7)
+ 150 005c 70E0      		ldi r23,hi8(7)
+ 151 005e 0E94 0000 		call __divmodhi4
+ 152 0062 892B      		or r24,r25
+ 153 0064 01F4      		brne .L6
+ 154               	.LSM21:
+ 155 0066 92E0      		ldi r25,lo8(2)
+ 156 0068 E92E      		mov r14,r25
+ 157 006a F12C      		mov r15,__zero_reg__
+ 158 006c EC0E      		add r14,r28
+ 159 006e FD1E      		adc r15,r29
+ 160 0070 20E0      		ldi r18,lo8(0)
+ 161 0072 30E0      		ldi r19,hi8(0)
+ 162               	.L6:
+ 163               	.LSM22:
+ 164 0074 A901      		movw r20,r18
+ 165 0076 4F5F      		subi r20,lo8(-(1))
+ 166 0078 5F4F      		sbci r21,hi8(-(1))
+ 167               	.LSM23:
+ 168 007a 8AE0      		ldi r24,lo8(10)
+ 169 007c A82E      		mov r10,r24
+ 170 007e B12C      		mov r11,__zero_reg__
+ 171               	.LVL4:
+ 172 0080 A20E      		add r10,r18
+ 173 0082 B31E      		adc r11,r19
+ 174               	.LSM24:
+ 175 0084 E701      		movw r28,r14
+ 176 0086 2396      		adiw r28,3
+ 177               	.LSM25:
+ 178 0088 F601      		movw r30,r12
+ 179 008a 8081      		ld r24,Z
+ 180 008c 9181      		ldd r25,Z+1
+ 181 008e 0197      		sbiw r24,1
+ 182 0090 01F4      		brne .L7
+ 183               	.LSM26:
+ 184 0092 842F      		mov r24,r20
+ 185 0094 6A2D      		mov r22,r10
+ 186 0096 4E2D      		mov r20,r14
+ 187               	.LVL5:
+ 188 0098 2C2F      		mov r18,r28
+ 189 009a 0E94 0000 		call DrawFilledBox
+ 190               	.LVL6:
+ 191               	.L7:
+ 192               	.LSM27:
+ 193 009e 0F5F      		subi r16,lo8(-(1))
+ 194 00a0 1F4F      		sbci r17,hi8(-(1))
+ 195 00a2 82E0      		ldi r24,lo8(2)
+ 196 00a4 90E0      		ldi r25,hi8(2)
+ 197 00a6 C80E      		add r12,r24
+ 198 00a8 D91E      		adc r13,r25
+ 199 00aa 0531      		cpi r16,21
+ 200 00ac 1105      		cpc r17,__zero_reg__
+ 201 00ae 01F0      		breq .L8
+ 202               	.LSM28:
+ 203 00b0 9501      		movw r18,r10
+ 204 00b2 2E5F      		subi r18,lo8(-(2))
+ 205 00b4 3F4F      		sbci r19,hi8(-(2))
+ 206               	.LVL7:
+ 207 00b6 00C0      		rjmp .L9
+ 208               	.LVL8:
+ 209               	.L8:
+ 210               	.LSM29:
+ 211 00b8 0E94 0000 		call PresentBuffer
+ 212               	.LVL9:
+ 213               	/* epilogue start */
+ 214               	.LSM30:
+ 215 00bc DF91      		pop r29
+ 216 00be CF91      		pop r28
+ 217               	.LVL10:
+ 218 00c0 1F91      		pop r17
+ 219 00c2 0F91      		pop r16
+ 220               	.LVL11:
+ 221 00c4 FF90      		pop r15
+ 222 00c6 EF90      		pop r14
+ 223               	.LVL12:
+ 224 00c8 DF90      		pop r13
+ 225 00ca CF90      		pop r12
+ 226 00cc BF90      		pop r11
+ 227 00ce AF90      		pop r10
+ 228               	.LVL13:
+ 229 00d0 0895      		ret
+ 230               	.LFE7:
+ 232               		.section	.text.BreakOut,"ax",@progbits
+ 233               	.global	BreakOut
+ 235               	BreakOut:
+ 236               	.LFB8:
+ 237               	.LSM31:
+ 238               	/* prologue: function */
+ 239               	/* frame size = 0 */
+ 240               	.LSM32:
+ 241 0000 0E94 0000 		call InitPositions
+ 242               	.LSM33:
+ 243 0004 0E94 0000 		call UpdateBreakOut
+ 244               	.L12:
+ 245 0008 00C0      		rjmp .L12
+ 246               	.LFE8:
+ 248               	.global	BRICK_LENGTH
+ 249               		.data
+ 252               	BRICK_LENGTH:
+ 253 0000 0A00      		.word	10
+ 254               	.global	BRICK_HEIGHT
+ 257               	BRICK_HEIGHT:
+ 258 0002 0400      		.word	4
+ 259               	.global	BW_GAP
+ 262               	BW_GAP:
+ 263 0004 0200      		.word	2
+ 264               	.global	BH_GAP
+ 267               	BH_GAP:
+ 268 0006 0100      		.word	1
+ 269               	.global	INITIAL_NO_BRICKS
+ 272               	INITIAL_NO_BRICKS:
+ 273 0008 1500      		.word	21
+ 274               	.global	ROW_COUNT
+ 277               	ROW_COUNT:
+ 278 000a 0700      		.word	7
+ 279               	.global	BRICK_SP
+ 282               	BRICK_SP:
+ 283 000c 0100      		.word	1
+ 284               		.comm paddleX1,2,1
+ 285               		.comm paddleX2,2,1
+ 286               		.comm paddleY1,2,1
+ 287               		.comm paddleY2,2,1
+ 288               		.comm ballX1,2,1
+ 289               		.comm ballX2,2,1
+ 290               		.comm ballY1,2,1
+ 291               		.comm ballY2,2,1
+ 292               		.comm nextBallX1,2,1
+ 293               		.comm nextBallX2,2,1
+ 294               		.comm nextBallY1,2,1
+ 295               		.comm nextBallY2,2,1
+ 296               		.comm bricks,42,1
+ 337               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 breakout.c
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:2      *ABS*:0000003f __SREG__
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:3      *ABS*:0000003e __SP_H__
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:4      *ABS*:0000003d __SP_L__
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:5      *ABS*:00000034 __CCP__
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:19     .text.InitPositions:00000000 InitPositions
+                            *COM*:00000002 paddleX1
+                            *COM*:00000002 paddleX2
+                            *COM*:00000002 paddleY1
+                            *COM*:00000002 paddleY2
+                            *COM*:00000002 ballX1
+                            *COM*:00000002 ballX2
+                            *COM*:00000002 ballY1
+                            *COM*:00000002 ballY2
+                            *COM*:00000002 nextBallX1
+                            *COM*:00000002 nextBallX2
+                            *COM*:00000002 nextBallY1
+                            *COM*:00000002 nextBallY2
+                            *COM*:0000002a bricks
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:101    .text.UpdateBreakOut:00000000 UpdateBreakOut
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:235    .text.BreakOut:00000000 BreakOut
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:252    .data:00000000 BRICK_LENGTH
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:257    .data:00000002 BRICK_HEIGHT
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:262    .data:00000004 BW_GAP
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:267    .data:00000006 BH_GAP
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:272    .data:00000008 INITIAL_NO_BRICKS
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:277    .data:0000000a ROW_COUNT
+C:\Users\Dustin\AppData\Local\Temp/ccWN7c1Y.s:282    .data:0000000c BRICK_SP
+
+UNDEFINED SYMBOLS
+ClearBuffer
+DrawFilledBox
+__divmodhi4
+PresentBuffer
+__do_copy_data
+__do_clear_bss

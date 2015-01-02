@@ -1,0 +1,806 @@
+   1               		.file	"LCD.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               		.section	.text.SPIInit,"ax",@progbits
+  17               	.global	SPIInit
+  19               	SPIInit:
+  20               	.LFB2:
+  21               	.LSM0:
+  22               	/* prologue: function */
+  23               	/* frame size = 0 */
+  24               	.LSM1:
+  25 0000 229A      		sbi 36-32,2
+  26               	.LSM2:
+  27 0002 219A      		sbi 36-32,1
+  28               	.LSM3:
+  29 0004 209A      		sbi 36-32,0
+  30               	.LSM4:
+  31 0006 8FEF      		ldi r24,lo8(-1)
+  32 0008 84B9      		out 36-32,r24
+  33               	.LSM5:
+  34 000a 80E5      		ldi r24,lo8(80)
+  35 000c 8CBD      		out 76-32,r24
+  36               	/* epilogue start */
+  37               	.LSM6:
+  38 000e 0895      		ret
+  39               	.LFE2:
+  41               		.section	.text.SPIWriteByte,"ax",@progbits
+  42               	.global	SPIWriteByte
+  44               	SPIWriteByte:
+  45               	.LFB3:
+  46               	.LSM7:
+  47               	.LVL0:
+  48               	/* prologue: function */
+  49               	/* frame size = 0 */
+  50               	.LSM8:
+  51 0000 8EBD      		out 78-32,r24
+  52               	.L4:
+  53               	.LSM9:
+  54 0002 0DB4      		in __tmp_reg__,77-32
+  55 0004 07FE      		sbrs __tmp_reg__,7
+  56 0006 00C0      		rjmp .L4
+  57               	/* epilogue start */
+  58               	.LSM10:
+  59 0008 0895      		ret
+  60               	.LFE3:
+  62               		.section	.text.LCDWrite,"ax",@progbits
+  63               	.global	LCDWrite
+  65               	LCDWrite:
+  66               	.LFB4:
+  67               	.LSM11:
+  68               	.LVL1:
+  69               	/* prologue: function */
+  70               	/* frame size = 0 */
+  71               	.LSM12:
+  72 0000 95B1      		in r25,37-32
+  73 0002 8795      		ror r24
+  74 0004 8827      		clr r24
+  75 0006 8795      		ror r24
+  76               	.LVL2:
+  77 0008 9F77      		andi r25,lo8(127)
+  78 000a 982B      		or r25,r24
+  79 000c 95B9      		out 37-32,r25
+  80               	.LSM13:
+  81 000e 2898      		cbi 37-32,0
+  82               	.LBB4:
+  83               	.LBB5:
+  84               	.LSM14:
+  85 0010 6EBD      		out 78-32,r22
+  86               	.L8:
+  87               	.LSM15:
+  88 0012 0DB4      		in __tmp_reg__,77-32
+  89 0014 07FE      		sbrs __tmp_reg__,7
+  90 0016 00C0      		rjmp .L8
+  91               	.LBE5:
+  92               	.LBE4:
+  93               	.LSM16:
+  94 0018 289A      		sbi 37-32,0
+  95               	/* epilogue start */
+  96               	.LSM17:
+  97 001a 0895      		ret
+  98               	.LFE4:
+ 100               		.section	.text.LCDInitialise,"ax",@progbits
+ 101               	.global	LCDInitialise
+ 103               	LCDInitialise:
+ 104               	.LFB5:
+ 105               	.LSM18:
+ 106               	.LVL3:
+ 107 0000 1F93      		push r17
+ 108               	/* prologue: function */
+ 109               	/* frame size = 0 */
+ 110 0002 182F      		mov r17,r24
+ 111               	.LSM19:
+ 112 0004 0E94 0000 		call SPIInit
+ 113               	.LVL4:
+ 114               	.LSM20:
+ 115 0008 279A      		sbi 36-32,7
+ 116               	.LSM21:
+ 117 000a 239A      		sbi 36-32,3
+ 118               	.LSM22:
+ 119 000c 2B98      		cbi 37-32,3
+ 120               	.LSM23:
+ 121 000e 2B9A      		sbi 37-32,3
+ 122               	.LSM24:
+ 123 0010 80E0      		ldi r24,lo8(0)
+ 124 0012 61E2      		ldi r22,lo8(33)
+ 125 0014 0E94 0000 		call LCDWrite
+ 126               	.LSM25:
+ 127 0018 1068      		ori r17,lo8(-128)
+ 128 001a 80E0      		ldi r24,lo8(0)
+ 129 001c 612F      		mov r22,r17
+ 130 001e 0E94 0000 		call LCDWrite
+ 131               	.LSM26:
+ 132 0022 80E0      		ldi r24,lo8(0)
+ 133 0024 63E1      		ldi r22,lo8(19)
+ 134 0026 0E94 0000 		call LCDWrite
+ 135               	.LSM27:
+ 136 002a 80E0      		ldi r24,lo8(0)
+ 137 002c 60E2      		ldi r22,lo8(32)
+ 138 002e 0E94 0000 		call LCDWrite
+ 139               	.LSM28:
+ 140 0032 80E0      		ldi r24,lo8(0)
+ 141 0034 6CE0      		ldi r22,lo8(12)
+ 142 0036 0E94 0000 		call LCDWrite
+ 143               	.LSM29:
+ 144 003a 80E0      		ldi r24,lo8(0)
+ 145 003c 60E4      		ldi r22,lo8(64)
+ 146 003e 0E94 0000 		call LCDWrite
+ 147               	.LSM30:
+ 148 0042 80E0      		ldi r24,lo8(0)
+ 149 0044 60E8      		ldi r22,lo8(-128)
+ 150 0046 0E94 0000 		call LCDWrite
+ 151               	/* epilogue start */
+ 152               	.LSM31:
+ 153 004a 1F91      		pop r17
+ 154               	.LVL5:
+ 155 004c 0895      		ret
+ 156               	.LFE5:
+ 158               		.section	.text.LCDClear,"ax",@progbits
+ 159               	.global	LCDClear
+ 161               	LCDClear:
+ 162               	.LFB6:
+ 163               	.LSM32:
+ 164 0000 CF93      		push r28
+ 165 0002 DF93      		push r29
+ 166               	/* prologue: function */
+ 167               	/* frame size = 0 */
+ 168               	.LSM33:
+ 169 0004 C0E0      		ldi r28,lo8(0)
+ 170 0006 D0E0      		ldi r29,hi8(0)
+ 171               	.LVL6:
+ 172               	.L14:
+ 173               	.LBB6:
+ 174               	.LSM34:
+ 175 0008 81E0      		ldi r24,lo8(1)
+ 176 000a 60E0      		ldi r22,lo8(0)
+ 177 000c 0E94 0000 		call LCDWrite
+ 178               	.LSM35:
+ 179 0010 2196      		adiw r28,1
+ 180 0012 81E0      		ldi r24,hi8(504)
+ 181 0014 C83F      		cpi r28,lo8(504)
+ 182 0016 D807      		cpc r29,r24
+ 183 0018 01F4      		brne .L14
+ 184               	/* epilogue start */
+ 185               	.LBE6:
+ 186               	.LSM36:
+ 187 001a DF91      		pop r29
+ 188 001c CF91      		pop r28
+ 189               	.LVL7:
+ 190 001e 0895      		ret
+ 191               	.LFE6:
+ 193               		.section	.text.LCDCharacter,"ax",@progbits
+ 194               	.global	LCDCharacter
+ 196               	LCDCharacter:
+ 197               	.LFB7:
+ 198               	.LSM37:
+ 199               	.LVL8:
+ 200 0000 0F93      		push r16
+ 201 0002 1F93      		push r17
+ 202 0004 CF93      		push r28
+ 203 0006 DF93      		push r29
+ 204               	/* prologue: function */
+ 205               	/* frame size = 0 */
+ 206 0008 182F      		mov r17,r24
+ 207               	.LSM38:
+ 208 000a 81E0      		ldi r24,lo8(1)
+ 209               	.LVL9:
+ 210 000c 60E0      		ldi r22,lo8(0)
+ 211 000e 0E94 0000 		call LCDWrite
+ 212 0012 812F      		mov r24,r17
+ 213 0014 90E0      		ldi r25,lo8(0)
+ 214 0016 8097      		sbiw r24,32
+ 215 0018 EC01      		movw r28,r24
+ 216 001a CC0F      		lsl r28
+ 217 001c DD1F      		rol r29
+ 218 001e CC0F      		lsl r28
+ 219 0020 DD1F      		rol r29
+ 220 0022 C80F      		add r28,r24
+ 221 0024 D91F      		adc r29,r25
+ 222 0026 C050      		subi r28,lo8(-(ASCII))
+ 223 0028 D040      		sbci r29,hi8(-(ASCII))
+ 224               	.LBB7:
+ 225               	.LSM39:
+ 226 002a 85E0      		ldi r24,lo8(5)
+ 227 002c 189F      		mul r17,r24
+ 228 002e 8001      		movw r16,r0
+ 229 0030 1124      		clr r1
+ 230 0032 0050      		subi r16,lo8(-(ASCII-155))
+ 231 0034 1040      		sbci r17,hi8(-(ASCII-155))
+ 232               	.L18:
+ 233               	.LSM40:
+ 234 0036 81E0      		ldi r24,lo8(1)
+ 235 0038 6991      		ld r22,Y+
+ 236 003a 0E94 0000 		call LCDWrite
+ 237               	.LSM41:
+ 238 003e C017      		cp r28,r16
+ 239 0040 D107      		cpc r29,r17
+ 240 0042 01F4      		brne .L18
+ 241               	.LBE7:
+ 242               	.LSM42:
+ 243 0044 81E0      		ldi r24,lo8(1)
+ 244 0046 60E0      		ldi r22,lo8(0)
+ 245 0048 0E94 0000 		call LCDWrite
+ 246               	/* epilogue start */
+ 247               	.LSM43:
+ 248 004c DF91      		pop r29
+ 249 004e CF91      		pop r28
+ 250 0050 1F91      		pop r17
+ 251               	.LVL10:
+ 252 0052 0F91      		pop r16
+ 253 0054 0895      		ret
+ 254               	.LFE7:
+ 256               		.section	.text.LCDString,"ax",@progbits
+ 257               	.global	LCDString
+ 259               	LCDString:
+ 260               	.LFB8:
+ 261               	.LSM44:
+ 262               	.LVL11:
+ 263 0000 CF93      		push r28
+ 264 0002 DF93      		push r29
+ 265               	/* prologue: function */
+ 266               	/* frame size = 0 */
+ 267               	.LSM45:
+ 268 0004 EC01      		movw r28,r24
+ 269               	.LVL12:
+ 270 0006 00C0      		rjmp .L22
+ 271               	.L23:
+ 272               	.LSM46:
+ 273 0008 0E94 0000 		call LCDCharacter
+ 274               	.L22:
+ 275               	.LSM47:
+ 276 000c 8991      		ld r24,Y+
+ 277 000e 8823      		tst r24
+ 278 0010 01F4      		brne .L23
+ 279               	/* epilogue start */
+ 280               	.LSM48:
+ 281 0012 DF91      		pop r29
+ 282 0014 CF91      		pop r28
+ 283 0016 0895      		ret
+ 284               	.LFE8:
+ 286               		.section	.text.LCDPosition,"ax",@progbits
+ 287               	.global	LCDPosition
+ 289               	LCDPosition:
+ 290               	.LFB9:
+ 291               	.LSM49:
+ 292               	.LVL13:
+ 293 0000 1F93      		push r17
+ 294               	/* prologue: function */
+ 295               	/* frame size = 0 */
+ 296 0002 982F      		mov r25,r24
+ 297 0004 162F      		mov r17,r22
+ 298               	.LSM50:
+ 299 0006 8435      		cpi r24,lo8(84)
+ 300 0008 00F4      		brsh .L27
+ 301               	.LVL14:
+ 302 000a 6630      		cpi r22,lo8(6)
+ 303 000c 00F4      		brsh .L27
+ 304               	.LVL15:
+ 305               	.LSM51:
+ 306 000e 9068      		ori r25,lo8(-128)
+ 307               	.LVL16:
+ 308 0010 80E0      		ldi r24,lo8(0)
+ 309 0012 692F      		mov r22,r25
+ 310               	.LVL17:
+ 311 0014 0E94 0000 		call LCDWrite
+ 312               	.LVL18:
+ 313               	.LSM52:
+ 314 0018 1064      		ori r17,lo8(64)
+ 315 001a 80E0      		ldi r24,lo8(0)
+ 316 001c 612F      		mov r22,r17
+ 317 001e 0E94 0000 		call LCDWrite
+ 318               	.LVL19:
+ 319               	.L27:
+ 320               	/* epilogue start */
+ 321               	.LSM53:
+ 322 0022 1F91      		pop r17
+ 323               	.LVL20:
+ 324 0024 0895      		ret
+ 325               	.LFE9:
+ 327               		.data
+ 330               	ASCII:
+ 331 0000 00        		.byte	0
+ 332 0001 00        		.byte	0
+ 333 0002 00        		.byte	0
+ 334 0003 00        		.byte	0
+ 335 0004 00        		.byte	0
+ 336 0005 00        		.byte	0
+ 337 0006 00        		.byte	0
+ 338 0007 5F        		.byte	95
+ 339 0008 00        		.byte	0
+ 340 0009 00        		.byte	0
+ 341 000a 00        		.byte	0
+ 342 000b 07        		.byte	7
+ 343 000c 00        		.byte	0
+ 344 000d 07        		.byte	7
+ 345 000e 00        		.byte	0
+ 346 000f 14        		.byte	20
+ 347 0010 7F        		.byte	127
+ 348 0011 14        		.byte	20
+ 349 0012 7F        		.byte	127
+ 350 0013 14        		.byte	20
+ 351 0014 24        		.byte	36
+ 352 0015 2A        		.byte	42
+ 353 0016 7F        		.byte	127
+ 354 0017 2A        		.byte	42
+ 355 0018 12        		.byte	18
+ 356 0019 23        		.byte	35
+ 357 001a 13        		.byte	19
+ 358 001b 08        		.byte	8
+ 359 001c 64        		.byte	100
+ 360 001d 62        		.byte	98
+ 361 001e 36        		.byte	54
+ 362 001f 49        		.byte	73
+ 363 0020 55        		.byte	85
+ 364 0021 22        		.byte	34
+ 365 0022 50        		.byte	80
+ 366 0023 00        		.byte	0
+ 367 0024 05        		.byte	5
+ 368 0025 03        		.byte	3
+ 369 0026 00        		.byte	0
+ 370 0027 00        		.byte	0
+ 371 0028 00        		.byte	0
+ 372 0029 1C        		.byte	28
+ 373 002a 22        		.byte	34
+ 374 002b 41        		.byte	65
+ 375 002c 00        		.byte	0
+ 376 002d 00        		.byte	0
+ 377 002e 41        		.byte	65
+ 378 002f 22        		.byte	34
+ 379 0030 1C        		.byte	28
+ 380 0031 00        		.byte	0
+ 381 0032 14        		.byte	20
+ 382 0033 08        		.byte	8
+ 383 0034 3E        		.byte	62
+ 384 0035 08        		.byte	8
+ 385 0036 14        		.byte	20
+ 386 0037 08        		.byte	8
+ 387 0038 08        		.byte	8
+ 388 0039 3E        		.byte	62
+ 389 003a 08        		.byte	8
+ 390 003b 08        		.byte	8
+ 391 003c 00        		.byte	0
+ 392 003d 50        		.byte	80
+ 393 003e 30        		.byte	48
+ 394 003f 00        		.byte	0
+ 395 0040 00        		.byte	0
+ 396 0041 08        		.byte	8
+ 397 0042 08        		.byte	8
+ 398 0043 08        		.byte	8
+ 399 0044 08        		.byte	8
+ 400 0045 08        		.byte	8
+ 401 0046 00        		.byte	0
+ 402 0047 60        		.byte	96
+ 403 0048 60        		.byte	96
+ 404 0049 00        		.byte	0
+ 405 004a 00        		.byte	0
+ 406 004b 20        		.byte	32
+ 407 004c 10        		.byte	16
+ 408 004d 08        		.byte	8
+ 409 004e 04        		.byte	4
+ 410 004f 02        		.byte	2
+ 411 0050 3E        		.byte	62
+ 412 0051 51        		.byte	81
+ 413 0052 49        		.byte	73
+ 414 0053 45        		.byte	69
+ 415 0054 3E        		.byte	62
+ 416 0055 00        		.byte	0
+ 417 0056 42        		.byte	66
+ 418 0057 7F        		.byte	127
+ 419 0058 40        		.byte	64
+ 420 0059 00        		.byte	0
+ 421 005a 42        		.byte	66
+ 422 005b 61        		.byte	97
+ 423 005c 51        		.byte	81
+ 424 005d 49        		.byte	73
+ 425 005e 46        		.byte	70
+ 426 005f 21        		.byte	33
+ 427 0060 41        		.byte	65
+ 428 0061 45        		.byte	69
+ 429 0062 4B        		.byte	75
+ 430 0063 31        		.byte	49
+ 431 0064 18        		.byte	24
+ 432 0065 14        		.byte	20
+ 433 0066 12        		.byte	18
+ 434 0067 7F        		.byte	127
+ 435 0068 10        		.byte	16
+ 436 0069 27        		.byte	39
+ 437 006a 45        		.byte	69
+ 438 006b 45        		.byte	69
+ 439 006c 45        		.byte	69
+ 440 006d 39        		.byte	57
+ 441 006e 3C        		.byte	60
+ 442 006f 4A        		.byte	74
+ 443 0070 49        		.byte	73
+ 444 0071 49        		.byte	73
+ 445 0072 30        		.byte	48
+ 446 0073 01        		.byte	1
+ 447 0074 71        		.byte	113
+ 448 0075 09        		.byte	9
+ 449 0076 05        		.byte	5
+ 450 0077 03        		.byte	3
+ 451 0078 36        		.byte	54
+ 452 0079 49        		.byte	73
+ 453 007a 49        		.byte	73
+ 454 007b 49        		.byte	73
+ 455 007c 36        		.byte	54
+ 456 007d 06        		.byte	6
+ 457 007e 49        		.byte	73
+ 458 007f 49        		.byte	73
+ 459 0080 29        		.byte	41
+ 460 0081 1E        		.byte	30
+ 461 0082 00        		.byte	0
+ 462 0083 36        		.byte	54
+ 463 0084 36        		.byte	54
+ 464 0085 00        		.byte	0
+ 465 0086 00        		.byte	0
+ 466 0087 00        		.byte	0
+ 467 0088 56        		.byte	86
+ 468 0089 36        		.byte	54
+ 469 008a 00        		.byte	0
+ 470 008b 00        		.byte	0
+ 471 008c 08        		.byte	8
+ 472 008d 14        		.byte	20
+ 473 008e 22        		.byte	34
+ 474 008f 41        		.byte	65
+ 475 0090 00        		.byte	0
+ 476 0091 14        		.byte	20
+ 477 0092 14        		.byte	20
+ 478 0093 14        		.byte	20
+ 479 0094 14        		.byte	20
+ 480 0095 14        		.byte	20
+ 481 0096 00        		.byte	0
+ 482 0097 41        		.byte	65
+ 483 0098 22        		.byte	34
+ 484 0099 14        		.byte	20
+ 485 009a 08        		.byte	8
+ 486 009b 02        		.byte	2
+ 487 009c 01        		.byte	1
+ 488 009d 51        		.byte	81
+ 489 009e 09        		.byte	9
+ 490 009f 06        		.byte	6
+ 491 00a0 32        		.byte	50
+ 492 00a1 49        		.byte	73
+ 493 00a2 79        		.byte	121
+ 494 00a3 41        		.byte	65
+ 495 00a4 3E        		.byte	62
+ 496 00a5 7E        		.byte	126
+ 497 00a6 11        		.byte	17
+ 498 00a7 11        		.byte	17
+ 499 00a8 11        		.byte	17
+ 500 00a9 7E        		.byte	126
+ 501 00aa 7F        		.byte	127
+ 502 00ab 49        		.byte	73
+ 503 00ac 49        		.byte	73
+ 504 00ad 49        		.byte	73
+ 505 00ae 36        		.byte	54
+ 506 00af 3E        		.byte	62
+ 507 00b0 41        		.byte	65
+ 508 00b1 41        		.byte	65
+ 509 00b2 41        		.byte	65
+ 510 00b3 22        		.byte	34
+ 511 00b4 7F        		.byte	127
+ 512 00b5 41        		.byte	65
+ 513 00b6 41        		.byte	65
+ 514 00b7 22        		.byte	34
+ 515 00b8 1C        		.byte	28
+ 516 00b9 7F        		.byte	127
+ 517 00ba 49        		.byte	73
+ 518 00bb 49        		.byte	73
+ 519 00bc 49        		.byte	73
+ 520 00bd 41        		.byte	65
+ 521 00be 7F        		.byte	127
+ 522 00bf 09        		.byte	9
+ 523 00c0 09        		.byte	9
+ 524 00c1 09        		.byte	9
+ 525 00c2 01        		.byte	1
+ 526 00c3 3E        		.byte	62
+ 527 00c4 41        		.byte	65
+ 528 00c5 49        		.byte	73
+ 529 00c6 49        		.byte	73
+ 530 00c7 7A        		.byte	122
+ 531 00c8 7F        		.byte	127
+ 532 00c9 08        		.byte	8
+ 533 00ca 08        		.byte	8
+ 534 00cb 08        		.byte	8
+ 535 00cc 7F        		.byte	127
+ 536 00cd 00        		.byte	0
+ 537 00ce 41        		.byte	65
+ 538 00cf 7F        		.byte	127
+ 539 00d0 41        		.byte	65
+ 540 00d1 00        		.byte	0
+ 541 00d2 20        		.byte	32
+ 542 00d3 40        		.byte	64
+ 543 00d4 41        		.byte	65
+ 544 00d5 3F        		.byte	63
+ 545 00d6 01        		.byte	1
+ 546 00d7 7F        		.byte	127
+ 547 00d8 08        		.byte	8
+ 548 00d9 14        		.byte	20
+ 549 00da 22        		.byte	34
+ 550 00db 41        		.byte	65
+ 551 00dc 7F        		.byte	127
+ 552 00dd 40        		.byte	64
+ 553 00de 40        		.byte	64
+ 554 00df 40        		.byte	64
+ 555 00e0 40        		.byte	64
+ 556 00e1 7F        		.byte	127
+ 557 00e2 02        		.byte	2
+ 558 00e3 0C        		.byte	12
+ 559 00e4 02        		.byte	2
+ 560 00e5 7F        		.byte	127
+ 561 00e6 7F        		.byte	127
+ 562 00e7 04        		.byte	4
+ 563 00e8 08        		.byte	8
+ 564 00e9 10        		.byte	16
+ 565 00ea 7F        		.byte	127
+ 566 00eb 3E        		.byte	62
+ 567 00ec 41        		.byte	65
+ 568 00ed 41        		.byte	65
+ 569 00ee 41        		.byte	65
+ 570 00ef 3E        		.byte	62
+ 571 00f0 7F        		.byte	127
+ 572 00f1 09        		.byte	9
+ 573 00f2 09        		.byte	9
+ 574 00f3 09        		.byte	9
+ 575 00f4 06        		.byte	6
+ 576 00f5 3E        		.byte	62
+ 577 00f6 41        		.byte	65
+ 578 00f7 51        		.byte	81
+ 579 00f8 21        		.byte	33
+ 580 00f9 5E        		.byte	94
+ 581 00fa 7F        		.byte	127
+ 582 00fb 09        		.byte	9
+ 583 00fc 19        		.byte	25
+ 584 00fd 29        		.byte	41
+ 585 00fe 46        		.byte	70
+ 586 00ff 46        		.byte	70
+ 587 0100 49        		.byte	73
+ 588 0101 49        		.byte	73
+ 589 0102 49        		.byte	73
+ 590 0103 31        		.byte	49
+ 591 0104 01        		.byte	1
+ 592 0105 01        		.byte	1
+ 593 0106 7F        		.byte	127
+ 594 0107 01        		.byte	1
+ 595 0108 01        		.byte	1
+ 596 0109 3F        		.byte	63
+ 597 010a 40        		.byte	64
+ 598 010b 40        		.byte	64
+ 599 010c 40        		.byte	64
+ 600 010d 3F        		.byte	63
+ 601 010e 1F        		.byte	31
+ 602 010f 20        		.byte	32
+ 603 0110 40        		.byte	64
+ 604 0111 20        		.byte	32
+ 605 0112 1F        		.byte	31
+ 606 0113 3F        		.byte	63
+ 607 0114 40        		.byte	64
+ 608 0115 38        		.byte	56
+ 609 0116 40        		.byte	64
+ 610 0117 3F        		.byte	63
+ 611 0118 63        		.byte	99
+ 612 0119 14        		.byte	20
+ 613 011a 08        		.byte	8
+ 614 011b 14        		.byte	20
+ 615 011c 63        		.byte	99
+ 616 011d 07        		.byte	7
+ 617 011e 08        		.byte	8
+ 618 011f 70        		.byte	112
+ 619 0120 08        		.byte	8
+ 620 0121 07        		.byte	7
+ 621 0122 61        		.byte	97
+ 622 0123 51        		.byte	81
+ 623 0124 49        		.byte	73
+ 624 0125 45        		.byte	69
+ 625 0126 43        		.byte	67
+ 626 0127 00        		.byte	0
+ 627 0128 7F        		.byte	127
+ 628 0129 41        		.byte	65
+ 629 012a 41        		.byte	65
+ 630 012b 00        		.byte	0
+ 631 012c 02        		.byte	2
+ 632 012d 04        		.byte	4
+ 633 012e 08        		.byte	8
+ 634 012f 10        		.byte	16
+ 635 0130 20        		.byte	32
+ 636 0131 00        		.byte	0
+ 637 0132 41        		.byte	65
+ 638 0133 41        		.byte	65
+ 639 0134 7F        		.byte	127
+ 640 0135 00        		.byte	0
+ 641 0136 04        		.byte	4
+ 642 0137 02        		.byte	2
+ 643 0138 01        		.byte	1
+ 644 0139 02        		.byte	2
+ 645 013a 04        		.byte	4
+ 646 013b 40        		.byte	64
+ 647 013c 40        		.byte	64
+ 648 013d 40        		.byte	64
+ 649 013e 40        		.byte	64
+ 650 013f 40        		.byte	64
+ 651 0140 00        		.byte	0
+ 652 0141 01        		.byte	1
+ 653 0142 02        		.byte	2
+ 654 0143 04        		.byte	4
+ 655 0144 00        		.byte	0
+ 656 0145 20        		.byte	32
+ 657 0146 54        		.byte	84
+ 658 0147 54        		.byte	84
+ 659 0148 54        		.byte	84
+ 660 0149 78        		.byte	120
+ 661 014a 7F        		.byte	127
+ 662 014b 48        		.byte	72
+ 663 014c 44        		.byte	68
+ 664 014d 44        		.byte	68
+ 665 014e 38        		.byte	56
+ 666 014f 38        		.byte	56
+ 667 0150 44        		.byte	68
+ 668 0151 44        		.byte	68
+ 669 0152 44        		.byte	68
+ 670 0153 20        		.byte	32
+ 671 0154 38        		.byte	56
+ 672 0155 44        		.byte	68
+ 673 0156 44        		.byte	68
+ 674 0157 48        		.byte	72
+ 675 0158 7F        		.byte	127
+ 676 0159 38        		.byte	56
+ 677 015a 54        		.byte	84
+ 678 015b 54        		.byte	84
+ 679 015c 54        		.byte	84
+ 680 015d 18        		.byte	24
+ 681 015e 08        		.byte	8
+ 682 015f 7E        		.byte	126
+ 683 0160 09        		.byte	9
+ 684 0161 01        		.byte	1
+ 685 0162 02        		.byte	2
+ 686 0163 0C        		.byte	12
+ 687 0164 52        		.byte	82
+ 688 0165 52        		.byte	82
+ 689 0166 52        		.byte	82
+ 690 0167 3E        		.byte	62
+ 691 0168 7F        		.byte	127
+ 692 0169 08        		.byte	8
+ 693 016a 04        		.byte	4
+ 694 016b 04        		.byte	4
+ 695 016c 78        		.byte	120
+ 696 016d 00        		.byte	0
+ 697 016e 44        		.byte	68
+ 698 016f 7D        		.byte	125
+ 699 0170 40        		.byte	64
+ 700 0171 00        		.byte	0
+ 701 0172 20        		.byte	32
+ 702 0173 40        		.byte	64
+ 703 0174 44        		.byte	68
+ 704 0175 3D        		.byte	61
+ 705 0176 00        		.byte	0
+ 706 0177 7F        		.byte	127
+ 707 0178 10        		.byte	16
+ 708 0179 28        		.byte	40
+ 709 017a 44        		.byte	68
+ 710 017b 00        		.byte	0
+ 711 017c 00        		.byte	0
+ 712 017d 41        		.byte	65
+ 713 017e 7F        		.byte	127
+ 714 017f 40        		.byte	64
+ 715 0180 00        		.byte	0
+ 716 0181 7C        		.byte	124
+ 717 0182 04        		.byte	4
+ 718 0183 18        		.byte	24
+ 719 0184 04        		.byte	4
+ 720 0185 78        		.byte	120
+ 721 0186 7C        		.byte	124
+ 722 0187 08        		.byte	8
+ 723 0188 04        		.byte	4
+ 724 0189 04        		.byte	4
+ 725 018a 78        		.byte	120
+ 726 018b 38        		.byte	56
+ 727 018c 44        		.byte	68
+ 728 018d 44        		.byte	68
+ 729 018e 44        		.byte	68
+ 730 018f 38        		.byte	56
+ 731 0190 7C        		.byte	124
+ 732 0191 14        		.byte	20
+ 733 0192 14        		.byte	20
+ 734 0193 14        		.byte	20
+ 735 0194 08        		.byte	8
+ 736 0195 08        		.byte	8
+ 737 0196 14        		.byte	20
+ 738 0197 14        		.byte	20
+ 739 0198 18        		.byte	24
+ 740 0199 7C        		.byte	124
+ 741 019a 7C        		.byte	124
+ 742 019b 08        		.byte	8
+ 743 019c 04        		.byte	4
+ 744 019d 04        		.byte	4
+ 745 019e 08        		.byte	8
+ 746 019f 48        		.byte	72
+ 747 01a0 54        		.byte	84
+ 748 01a1 54        		.byte	84
+ 749 01a2 54        		.byte	84
+ 750 01a3 20        		.byte	32
+ 751 01a4 04        		.byte	4
+ 752 01a5 3F        		.byte	63
+ 753 01a6 44        		.byte	68
+ 754 01a7 40        		.byte	64
+ 755 01a8 20        		.byte	32
+ 756 01a9 3C        		.byte	60
+ 757 01aa 40        		.byte	64
+ 758 01ab 40        		.byte	64
+ 759 01ac 20        		.byte	32
+ 760 01ad 7C        		.byte	124
+ 761 01ae 1C        		.byte	28
+ 762 01af 20        		.byte	32
+ 763 01b0 40        		.byte	64
+ 764 01b1 20        		.byte	32
+ 765 01b2 1C        		.byte	28
+ 766 01b3 3C        		.byte	60
+ 767 01b4 40        		.byte	64
+ 768 01b5 30        		.byte	48
+ 769 01b6 40        		.byte	64
+ 770 01b7 3C        		.byte	60
+ 771 01b8 44        		.byte	68
+ 772 01b9 28        		.byte	40
+ 773 01ba 10        		.byte	16
+ 774 01bb 28        		.byte	40
+ 775 01bc 44        		.byte	68
+ 776 01bd 0C        		.byte	12
+ 777 01be 50        		.byte	80
+ 778 01bf 50        		.byte	80
+ 779 01c0 50        		.byte	80
+ 780 01c1 3C        		.byte	60
+ 781 01c2 44        		.byte	68
+ 782 01c3 64        		.byte	100
+ 783 01c4 54        		.byte	84
+ 784 01c5 4C        		.byte	76
+ 785 01c6 44        		.byte	68
+ 786 01c7 00        		.byte	0
+ 787 01c8 08        		.byte	8
+ 788 01c9 36        		.byte	54
+ 789 01ca 41        		.byte	65
+ 790 01cb 00        		.byte	0
+ 791 01cc 00        		.byte	0
+ 792 01cd 00        		.byte	0
+ 793 01ce 7F        		.byte	127
+ 794 01cf 00        		.byte	0
+ 795 01d0 00        		.byte	0
+ 796 01d1 00        		.byte	0
+ 797 01d2 41        		.byte	65
+ 798 01d3 36        		.byte	54
+ 799 01d4 08        		.byte	8
+ 800 01d5 00        		.byte	0
+ 801 01d6 10        		.byte	16
+ 802 01d7 08        		.byte	8
+ 803 01d8 08        		.byte	8
+ 804 01d9 10        		.byte	16
+ 805 01da 08        		.byte	8
+ 806 01db 78        		.byte	120
+ 807 01dc 46        		.byte	70
+ 808 01dd 41        		.byte	65
+ 809 01de 46        		.byte	70
+ 810 01df 78        		.byte	120
+ 891               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 LCD.c
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:2      *ABS*:0000003f __SREG__
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:3      *ABS*:0000003e __SP_H__
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:4      *ABS*:0000003d __SP_L__
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:5      *ABS*:00000034 __CCP__
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:19     .text.SPIInit:00000000 SPIInit
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:44     .text.SPIWriteByte:00000000 SPIWriteByte
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:65     .text.LCDWrite:00000000 LCDWrite
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:103    .text.LCDInitialise:00000000 LCDInitialise
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:161    .text.LCDClear:00000000 LCDClear
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:196    .text.LCDCharacter:00000000 LCDCharacter
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:330    .data:00000000 ASCII
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:259    .text.LCDString:00000000 LCDString
+C:\Users\Dustin\AppData\Local\Temp/ccttUsK6.s:289    .text.LCDPosition:00000000 LCDPosition
+
+UNDEFINED SYMBOLS
+__do_copy_data
